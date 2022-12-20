@@ -1,0 +1,16 @@
+export TERM=xterm-256color
+
+font_family FiraCode NFM Regular
+bold_font FiraCode NFM Bold
+    
+font_size 14
+adjust_line_height 175%
+cursor_blink_interval 0
+enable_audio_bell 0
+window_padding_width 10
+
+
+# BEGIN_KITTY_THEME
+# One Dark
+include current-theme.conf
+# END_KITTY_THEME
