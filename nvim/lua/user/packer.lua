@@ -6,7 +6,11 @@ return require('packer').startup(function(use)
 
     use 'joshdick/onedark.vim'
 
-    use 'neovim/nvim-lspconfig'
+    use {
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig",
+    }
 
     use {'neoclide/coc.nvim', branch = 'release'}
 
@@ -30,5 +34,14 @@ return require('packer').startup(function(use)
         "windwp/nvim-autopairs",
         config = function() require("nvim-autopairs").setup {} end
     }
+
+    use 'yamatsum/nvim-cursorline'
+
+    use 'feline-nvim/feline.nvim'
+
+    use 'ggandor/leap.nvim'
+
+    use 'tpope/vim-repeat'
 end)
+
 

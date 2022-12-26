@@ -15,6 +15,7 @@ vim.cmd('colorscheme onedark')
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.opt.scrolloff = 10
+vim.opt.syntax = 'enable'
 
 --
 vim.opt.wrap = false
