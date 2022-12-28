@@ -42,6 +42,8 @@ return require('packer').startup(function(use)
     use 'ggandor/leap.nvim'
 
     use 'tpope/vim-repeat'
+    
+    use 'windwp/nvim-ts-autotag'
 end)
 
 
