@@ -44,6 +44,15 @@ return require('packer').startup(function(use)
     use 'tpope/vim-repeat'
     
     use 'windwp/nvim-ts-autotag'
+
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/nvim-cmp'
+
+    use 'RishabhRD/popfix'
+    use 'RishabhRD/nvim-lsputils'
 end)
 
 
