@@ -9,7 +9,16 @@ require'nvim-treesitter.configs'.setup {
     indent = {
         enable = true
     },
-    ensure_installed = { "help", "javascript", "typescript", "php", "lua", "rust" },
+    ensure_installed = {
+        "help",
+        "javascript",
+        "typescript",
+        "php",
+        "lua",
+        "rust",
+        "html",
+        "vue"
+    },
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
