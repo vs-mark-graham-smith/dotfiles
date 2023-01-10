@@ -9,7 +9,6 @@ vim.opt.expandtab = true
 
 -- Colour Setup
 vim.opt.termguicolors = true
--- vim.cmd('colorscheme doom-one')
 
 -- Nice scroll x
 vim.keymap.set("n", "<C-d>", "<C-d>zz")

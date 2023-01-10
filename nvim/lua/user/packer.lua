@@ -6,43 +6,44 @@ return require('packer').startup(function(use)
 
 
     -- use { "catppuccin/nvim", as = "catppuccin" }
-    use({
-        'NTBBloodbath/doom-one.nvim',
-        setup = function()
-            -- Add color to cursor
-            vim.g.doom_one_cursor_coloring = false
-            -- Set :terminal colors
-            vim.g.doom_one_terminal_colors = true
-            -- Enable italic comments
-            vim.g.doom_one_italic_comments = false
-            -- Enable TS support
-            vim.g.doom_one_enable_treesitter = true
-            -- Color whole diagnostic text or only underline
-            vim.g.doom_one_diagnostics_text_color = false
-            -- Enable transparent background
-            vim.g.doom_one_transparent_background = false
+    use 'folke/tokyonight.nvim'
+    -- use({
+    --     'NTBBloodbath/doom-one.nvim',
+    --     setup = function()
+    --         -- Add color to cursor
+    --         vim.g.doom_one_cursor_coloring = false
+    --         -- Set :terminal colors
+    --         vim.g.doom_one_terminal_colors = true
+    --         -- Enable italic comments
+    --         vim.g.doom_one_italic_comments = false
+    --         -- Enable TS support
+    --         vim.g.doom_one_enable_treesitter = true
+    --         -- Color whole diagnostic text or only underline
+    --         vim.g.doom_one_diagnostics_text_color = false
+    --         -- Enable transparent background
+    --         vim.g.doom_one_transparent_background = false
 
-            -- Pumblend transparency
-            vim.g.doom_one_pumblend_enable = false
-            vim.g.doom_one_pumblend_transparency = 20
+    --         -- Pumblend transparency
+    --         vim.g.doom_one_pumblend_enable = false
+    --         vim.g.doom_one_pumblend_transparency = 20
 
-            -- Plugins integration
-            vim.g.doom_one_plugin_neorg = true
-            vim.g.doom_one_plugin_barbar = false
-            vim.g.doom_one_plugin_telescope = false
-            vim.g.doom_one_plugin_neogit = true
-            vim.g.doom_one_plugin_nvim_tree = true
-            vim.g.doom_one_plugin_dashboard = true
-            vim.g.doom_one_plugin_startify = true
-            vim.g.doom_one_plugin_whichkey = true
-            vim.g.doom_one_plugin_indent_blankline = true
-            vim.g.doom_one_plugin_vim_illuminate = true
-            vim.g.doom_one_plugin_lspsaga = false
-        end,
-        config = function()
-            vim.cmd("colorscheme doom-one")
-        end,
-    })
+    --         -- Plugins integration
+    --         vim.g.doom_one_plugin_neorg = true
+    --         vim.g.doom_one_plugin_barbar = false
+    --         vim.g.doom_one_plugin_telescope = false
+    --         vim.g.doom_one_plugin_neogit = true
+    --         vim.g.doom_one_plugin_nvim_tree = true
+    --         vim.g.doom_one_plugin_dashboard = true
+    --         vim.g.doom_one_plugin_startify = true
+    --         vim.g.doom_one_plugin_whichkey = true
+    --         vim.g.doom_one_plugin_indent_blankline = true
+    --         vim.g.doom_one_plugin_vim_illuminate = true
+    --         vim.g.doom_one_plugin_lspsaga = false
+    --     end,
+    --     config = function()
+    --         vim.cmd("colorscheme doom-one")
+    --     end,
+    -- })
 
     use {
         "williamboman/mason.nvim",
@@ -64,9 +65,9 @@ return require('packer').startup(function(use)
 
     use { 'junegunn/fzf', run = './install --bin', }
 
-    --use({ "nvim-treesitter/nvim-treesitter", commit = "fd4525fd9e61950520cea4737abc1800ad4aabb" })
-    -- Cause they fucked syntax highlighting we're pinning to commit
-     use({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
+    use({'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'})
+
+    use 'nvim-treesitter/playground'
 
     use {
         "windwp/nvim-autopairs",
