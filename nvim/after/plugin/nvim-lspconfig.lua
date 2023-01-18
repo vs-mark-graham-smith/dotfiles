@@ -5,6 +5,7 @@ local keymap = function()
         vim.lsp.buf.definition,
         bufopts
     )
+    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 end
 
 require'lspconfig'.rust_analyzer.setup{

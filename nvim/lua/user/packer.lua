@@ -4,46 +4,7 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
-
-    -- use { "catppuccin/nvim", as = "catppuccin" }
     use 'folke/tokyonight.nvim'
-    -- use({
-    --     'NTBBloodbath/doom-one.nvim',
-    --     setup = function()
-    --         -- Add color to cursor
-    --         vim.g.doom_one_cursor_coloring = false
-    --         -- Set :terminal colors
-    --         vim.g.doom_one_terminal_colors = true
-    --         -- Enable italic comments
-    --         vim.g.doom_one_italic_comments = false
-    --         -- Enable TS support
-    --         vim.g.doom_one_enable_treesitter = true
-    --         -- Color whole diagnostic text or only underline
-    --         vim.g.doom_one_diagnostics_text_color = false
-    --         -- Enable transparent background
-    --         vim.g.doom_one_transparent_background = false
-
-    --         -- Pumblend transparency
-    --         vim.g.doom_one_pumblend_enable = false
-    --         vim.g.doom_one_pumblend_transparency = 20
-
-    --         -- Plugins integration
-    --         vim.g.doom_one_plugin_neorg = true
-    --         vim.g.doom_one_plugin_barbar = false
-    --         vim.g.doom_one_plugin_telescope = false
-    --         vim.g.doom_one_plugin_neogit = true
-    --         vim.g.doom_one_plugin_nvim_tree = true
-    --         vim.g.doom_one_plugin_dashboard = true
-    --         vim.g.doom_one_plugin_startify = true
-    --         vim.g.doom_one_plugin_whichkey = true
-    --         vim.g.doom_one_plugin_indent_blankline = true
-    --         vim.g.doom_one_plugin_vim_illuminate = true
-    --         vim.g.doom_one_plugin_lspsaga = false
-    --     end,
-    --     config = function()
-    --         vim.cmd("colorscheme doom-one")
-    --     end,
-    -- })
 
     use {
         "williamboman/mason.nvim",
@@ -59,7 +20,10 @@ return require('packer').startup(function(use)
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
 
+    use 'nvim-lua/plenary.nvim'
     use 'vijaymarupudi/nvim-fzf'
+
+    use 'ThePrimeagen/harpoon'
 
     use 'ibhagwan/fzf-lua'
 
@@ -92,6 +56,51 @@ return require('packer').startup(function(use)
 
     use 'RishabhRD/popfix'
     use 'RishabhRD/nvim-lsputils'
+    
+    use {
+        'abecodes/tabout.nvim',
+        config = function()
+            require('tabout').setup {
+                tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
+                backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+                act_as_tab = true, -- shift content if tab out is not possible
+                act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+                default_tab = '<C-t>', -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
+                default_shift_tab = '<C-d>', -- reverse shift default action,
+                enable_backwards = true, -- well ...
+                completion = true, -- if the tabkey is used in a completion pum
+                tabouts = {
+                    {open = "'", close = "'"},
+                    {open = '"', close = '"'},
+                    {open = '`', close = '`'},
+                    {open = '(', close = ')'},
+                    {open = '[', close = ']'},
+                    {open = '{', close = '}'}
+                },
+                ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
+                exclude = {} -- tabout will ignore these filetypes
+            }
+        end,
+        wants = {'nvim-treesitter'}, -- or require if not used so far
+        after = {'nvim-cmp'} -- if a completion plugin is using tabs load it before
+    }
+
+    use {'edluffy/specs.nvim'}
+
+    use {
+        "folke/which-key.nvim",
+        config = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+            require("which-key").setup {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        end
+    }
+
+    use 'karb94/neoscroll.nvim'
 end)
 
 
