@@ -8,7 +8,7 @@
 require'nvim-treesitter.configs'.setup {
     -- A list of parser names, or "all"
     indent = {
-        enable = true
+        enable = false
     },
 
     ensure_installed = {

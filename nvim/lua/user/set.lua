@@ -14,7 +14,7 @@ vim.opt.termguicolors = true
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.opt.scrolloff = 10
-vim.opt.syntax = 'enable'
+vim.opt.syntax = 'on'
 
 --
 vim.opt.wrap = false

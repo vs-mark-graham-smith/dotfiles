@@ -1,0 +1,277 @@
+#+TITLE: Config
+#+PROPERTY header-args:emacs-lisp :tangle config.el
+
+* Doom Configurations
+Some functionality uses this to identify you, e.g. GPG configuration, email
+clients, file templates and snippets. It is optional.
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Mark Graham-Smith"
+      user-mail-address "markianjosephsmith@gmail.com")
+#+END_SRC
+
+* Private Configuration
+Place your private configuration here! Remember, you do not need to run 'doom
+sync' after modifying this file!
+** Mac Modifier Keys
+#+BEGIN_SRC emacs-lisp
+(setq mac-option-key-is-meta nil)
+(setq mac-command-key-is-meta t)
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier nil)
+#+END_SRC
+
+** File Thresholds
+#+BEGIN_SRC emacs-lisp
+(setq-default flycheck-checker-error-threshold 1000)
+(setq-default lsp-file-watch-threshold 50000)
+#+END_SRC
+
+** Scroll Margin
+#+BEGIN_SRC emacs-lisp
+(setq scroll-margin 20)
+#+END_SRC
+
+** Indentation Rules
+#+BEGIN_SRC emacs-lisp
+(setq-default dtrt-indent-max-offset 4)
+(setq-default tab-width 4)
+#+END_SRC
+
+** Doom Customisation
+*** Lines
+**** Line Numbers Style
+This determines the style of line numbers in effect. If set to `nil', line
+numbers are disabled. For relative line numbers, set this to `relative'.
+#+BEGIN_SRC emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+END_SRC
+
+**** Relative Line Number Colour
+This sets the current line number colour
+#+BEGIN_SRC emacs-lisp
+(set-face-foreground 'line-number-current-line "#EBBF83")
+#+END_SRC
+
+*** Fonts
+Doom exposes five (optional) variables for controlling fonts in Doom:
+- `doom-font' -- the primary font to use
+- `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+- `doom-big-font' -- used for `doom-big-font-mode'; use this for
+  presentations or streaming.
+- `doom-unicode-font' -- for unicode glyphs
+- `doom-serif-font' -- for the `fixed-pitch-serif' face
+#+BEGIN_SRC emacs-lisp
+(setq doom-font
+  (font-spec :family "FiraCode Nerd Font" :size 14))
+(setq default-text-properties '(line-spacing 0.4 line-height 1.4))
+#+END_SRC
+
+*** Themes
+There are two ways to load a theme. Both assume the theme is installed and
+available. You can either set `doom-theme' or manually load a theme with the
+`load-theme' function. This is the default:
+#+BEGIN_SRC emacs-lisp
+(setq doom-theme 'doom-city-lights)
+;; (custom-theme-set-faces!
+;;   '(font-lock-variable-name-face)
+;;   )
+;; (setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-tokyo-night)
+#+END_SRC
+
+
+**** Theme Customisations
+Here are the customisations for each theme
+#+BEGIN_SRC emacs-lisp
+(when (display-graphic-p)
+  (toggle-frame-maximized)
+  (custom-theme-set-faces! 'doom-city-lights
+     '(tree-sitter-hl-face:variable :foreground "#EBBF83")
+
+     ;; Controls self in php
+     '(tree-sitter-hl-face:variable.builtin :foreground "pink")
+
+     ;; Alters property colours in php ->COLOUR
+     ;; '(tree-sitter-hl-face:property :foreground "green")
+
+     ;; These seem to do nothing (Tested in PHP)
+     ;; '(tree-sitter-hl-face:variable.parameter :foreground "#ff0000")
+     ;; '(tree-sitter-hl-face:variable.special :foreground "#ff0000")
+     ;; '(tree-sitter-hl-face:property.definition :foreground "yellow")
+    )
+  )
+#+END_SRC
+
+*** Org
+If you use `org' and don't want your org files in the default location below,
+change `org-directory'. It must be set before org loads!
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/org/")
+#+END_SRC
+
+** Packages
+*** Evil
+**** Evil Snipe
+Evil Snipe rebinds
+#+BEGIN_SRC emacs-lisp
+(after! evil-snipe
+  (evil-define-key* '(motion normal) evil-snipe-local-mode-map
+    "s" #'evil-avy-goto-char-2))
+
+(map!
+  :after evil-snipe
+  :nv "s" #'evil-avy-goto-char-2
+  )
+#+END_SRC
+
+**** Evil Terminal Cursor Changer
+Installed to allow cursor manipulation when entering and exiting insert mode in terminal emacs.
+#+BEGIN_SRC emacs-lisp
+(use-package! evil-terminal-cursor-changer
+  :hook (tty-setup . evil-terminal-cursor-changer-activate))
+#+END_SRC
+
+*** VTerm
+Create a toggle for vterm.
+#+BEGIN_SRC emacs-lisp
+(defun +vterm-toggle ()
+  "Switch to terminal buffer or create and switch"
+  (interactive)
+  (if (get-buffer "*vterm*")
+    (if (equal (get-buffer "*vterm*") (current-buffer))
+      (evil-switch-to-windows-last-buffer)
+      (switch-to-buffer "*vterm*")
+      )
+    (call-interactively #'+vterm/here)))
+
+(map!
+ :nvi "C-," #'+vterm-toggle
+ )
+#+END_SRC
+
+*** Window Splits
+#+BEGIN_SRC emacs-lisp
+(map!
+  :after evil
+  :leader
+  :nvi "w -" #'evil-window-split
+  :nvi "w |" #'evil-window-vsplit
+  )
+#+END_SRC
+
+*** Treesitter
+#+BEGIN_SRC emacs-lisp
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+END_SRC
+
+*** Comment Lines
+Comment Selection
+#+BEGIN_SRC emacs-lisp
+(map!
+ :nv "C-/" #'comment-line
+ )
+#+END_SRC
+
+*** Edit Indirect Mode
+Edit Indirect Mode provides functionality to edit code in a separate window.
+**** Modal Edits
+***** Edit Indrect Set Mode Before Init
+Set the mode to be used by the indirect region, and then call indirect region.
+#+BEGIN_SRC emacs-lisp
+(defun +edit-indirect-set-mode-before-init (begin end)
+  "Set the mode to be used by the indirect region, and then call indirect region"
+  (interactive "r")
+  (cond
+   ((stringp mode-name)
+    (setq indirect-region-mode mode-name))
+   ((listp mode-name)
+    (setq indirect-region-mode (nth 0 mode-name)))
+   )
+
+  (switch-to-buffer (edit-indirect-region begin end)))
+#+END_SRC
+
+***** A function to check the mode of the buffer and setting that mode when a new indirect edit is started.
+Check the mode that was defined when this buffer was created, and set a mode for the buffer
+using that value.
+#+BEGIN_SRC emacs-lisp
+(defun +edit-indirect-set-mode ()
+  (when (and (boundp 'indirect-region-mode) (stringp indirect-region-mode))
+    (funcall
+     (pcase indirect-region-mode
+       ("Rustic" #'rustic-mode)
+       ("Web" #'web-mode) ;; Has issues with PHP highlighting?
+       ("PHP//l" #'php-mode)
+       ("ELisp" #'emacs-lisp-mode)
+       ))))
+
+(add-hook 'edit-indirect-after-creation-hook '+edit-indirect-set-mode)
+#+END_SRC
+
+***** Map function
+#+BEGIN_SRC emacs-lisp
+(map!
+  :leader
+  :v "fi" #'+edit-indirect-set-mode-before-init
+  )
+#+END_SRC
+
+*** Gupnode Integration (VS)
+Implementation of Gupnode for visualsoft.
+#+BEGIN_SRC emacs-lisp
+(setq shell-file-name "zsh")
+(setq shell-command-switch "-ic")
+(defun vs/gupnode ()
+  "Visualsoft Gupnode Support"
+  (interactive)
+  (if (and
+         (stringp doom-modeline--project-root)
+         (or
+          (string= doom-modeline--project-root "/Users/markgraham-smith/Code/Projects/vscommerce3/")
+          (string= doom-modeline--project-root "/Users/markgraham-smith/Code/Projects/vscommerce3/client_specifics/")
+          )
+         )
+      (progn
+        (let ((default-directory doom-modeline--project-root)) (shell-command (concat
+                                                                                "gupnode "
+                                                                                (read-string "Gupnode: ")
+                                                                                )))
+        (message "Done")
+       )
+    (message "fuck off?")
+    )
+  )
+
+(map!
+ :leader
+ :n "v" #'vs/gupnode
+ )
+
+#+END_SRC
+
+*** Org Bullets
+#+BEGIN_SRC emacs-lisp
+(after! org
+  (require 'org-bullets)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  )
+#+END_SRC
+
+*** Web Mode
+#+BEGIN_SRC emacs-lisp
+(after! web-mode
+  (setq web-mode-script-padding 0)
+  )
+#+END_SRC
+*** Rustic Mode
+#+begin_src emacs-lisp
+
+(after! rustic-mode
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  )
+
+#+end_src
