@@ -262,16 +262,21 @@ Implementation of Gupnode for visualsoft.
 #+END_SRC
 
 *** Web Mode
+**** Disable Padding for Scripts
 #+BEGIN_SRC emacs-lisp
 (after! web-mode
   (setq web-mode-script-padding 0)
   )
 #+END_SRC
+**** Disable string lineup
+#+BEGIN_SRC emacs-lisp
+(after! web-mode
+  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+  )
+#+END_SRC
 *** Rustic Mode
 #+begin_src emacs-lisp
-
 (after! rustic-mode
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
   )
-
 #+end_src

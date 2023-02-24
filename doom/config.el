@@ -157,3 +157,11 @@
 (after! web-mode
   (setq web-mode-script-padding 0)
   )
+
+(after! web-mode
+  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+  )
+
+(after! rustic-mode
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
+  )
