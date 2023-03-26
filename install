@@ -16,5 +16,5 @@ ln -s  $DOTFILES/scripts/t $HOME/.local/bin/t
 rm -rf $HOME/.config/nvim
 ln -s $DOTFILES/nvim $HOME/.config/nvim
 
-rm -rf $HOME/.doom.d
-ln -s $DOTFILES/doom $HOME/.doom.d
+rm -rf $HOME/.config/doom
+ln -s $DOTFILES/doom $HOME/.config/doom

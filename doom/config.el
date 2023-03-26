@@ -121,34 +121,6 @@
   :v "fi" #'+edit-indirect-set-mode-before-init
   )
 
-(setq shell-file-name "zsh")
-(setq shell-command-switch "-ic")
-(defun vs/gupnode ()
-  "Visualsoft Gupnode Support"
-  (interactive)
-  (if (and
-         (stringp doom-modeline--project-root)
-         (or
-          (string= doom-modeline--project-root "/Users/markgraham-smith/Code/Projects/vscommerce3/")
-          (string= doom-modeline--project-root "/Users/markgraham-smith/Code/Projects/vscommerce3/client_specifics/")
-          )
-         )
-      (progn
-        (let ((default-directory doom-modeline--project-root)) (shell-command (concat
-                                                                                "gupnode "
-                                                                                (read-string "Gupnode: ")
-                                                                                )))
-        (message "Done")
-       )
-    (message "fuck off?")
-    )
-  )
-
-(map!
- :leader
- :n "v" #'vs/gupnode
- )
-
 (after! org
   (require 'org-bullets)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
